@@ -38,7 +38,8 @@ services:
       dockerfile: Dockerfile
     container_name: vaychat-api
     restart: unless-stopped
-    env_file: .env
+    env_file:
+      - .env
     environment:
       DATABASE_URL: postgresql://${POSTGRES_USER:-vaychat}:${POSTGRES_PASSWORD:-vaychat_secret}@postgres:5432/${POSTGRES_DB:-vaychat}?schema=public
       REDIS_URL: redis://redis:6379
@@ -83,3 +84,4 @@ services:
 volumes:
   postgres_data:
   redis_data:
+
