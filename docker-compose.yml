@@ -1,18 +1,19 @@
+version: "3.8"
 services:
   postgres:
     image: postgres:16-alpine
     container_name: vaychat-postgres
     restart: unless-stopped
     environment:
-      POSTGRES_USER: ${POSTGRES_USER:-vaychat}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-vaychat_secret}
-      POSTGRES_DB: ${POSTGRES_DB:-vaychat}
+      POSTGRES_USER: vaychat
+      POSTGRES_PASSWORD: vaychat_secret
+      POSTGRES_DB: vaychat
     ports:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-vaychat}"]
+      test: ["CMD-SHELL", "pg_isready -U vaychat"]
       interval: 5s
       timeout: 5s
       retries: 5
@@ -38,11 +39,14 @@ services:
       dockerfile: Dockerfile
     container_name: vaychat-api
     restart: unless-stopped
-    env_file:
-      - .env
     environment:
-      DATABASE_URL: postgresql://${POSTGRES_USER:-vaychat}:${POSTGRES_PASSWORD:-vaychat_secret}@postgres:5432/${POSTGRES_DB:-vaychat}?schema=public
-      REDIS_URL: redis://redis:6379
+      NODE_ENV: production
+      DATABASE_URL: "postgresql://vaychat:vaychat_secret@postgres:5432/vaychat?schema=public"
+      REDIS_URL: "redis://redis:6379"
+      JWT_ACCESS_SECRET: "VayChatJwtAccessSecret2024VeryLong"
+      JWT_REFRESH_SECRET: "VayChatJwtRefreshSecret2024VeryLong"
+      CORS_ORIGIN: "*"
+      API_PORT: 4000
     ports:
       - "4000:4000"
     depends_on:
@@ -60,26 +64,13 @@ services:
     container_name: vaychat-web
     restart: unless-stopped
     environment:
-      NEXT_PUBLIC_API_URL: http://api:4000
-      NEXT_PUBLIC_WS_URL: http://api:4000
+      NODE_ENV: production
+      NEXT_PUBLIC_API_URL: "http://82.147.67.216:4000"
+      NEXT_PUBLIC_WS_URL: "http://82.147.67.216:4000"
     ports:
       - "3000:3000"
     depends_on:
       - api
-
-  nginx:
-    image: nginx:alpine
-    container_name: vaychat-nginx
-    restart: unless-stopped
-    ports:
-      - "80:80"
-    volumes:
-      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
-    depends_on:
-      - api
-      - web
-    profiles:
-      - production
 
 volumes:
   postgres_data:
