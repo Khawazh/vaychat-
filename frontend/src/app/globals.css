@@ -1,0 +1,91 @@
+@import "tailwindcss";
+@variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --color-white: #ffffff;
+  --color-green: #0f8f3d;
+  --color-green-light: #12a84a;
+  --color-green-dark: #0a6b2f;
+  --color-red: #d11f1f;
+  --color-red-light: #e83535;
+  --color-black: #000000;
+  --color-dark: #0a0a0a;
+  --color-dark-elevated: #111111;
+  --color-dark-card: #161616;
+  --color-dark-border: #222222;
+  --color-glass: rgba(255, 255, 255, 0.06);
+  --color-glass-border: rgba(255, 255, 255, 0.1);
+
+  --font-sans: "Segoe UI", system-ui, -apple-system, sans-serif;
+  --radius-xl: 1.25rem;
+  --radius-2xl: 1.5rem;
+  --shadow-soft: 0 4px 24px rgba(0, 0, 0, 0.25);
+  --shadow-glass: 0 8px 40px rgba(0, 0, 0, 0.45);
+  --shadow-red: 0 0 40px rgba(209, 31, 31, 0.15);
+}
+
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-sans);
+  background: var(--color-dark);
+  color: #f5f5f5;
+  -webkit-font-smoothing: antialiased;
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.glass-panel {
+  background: rgba(22, 22, 22, 0.88);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid var(--color-glass-border);
+  box-shadow: var(--shadow-glass);
+}
+
+body.theme-light .glass-panel {
+  background: rgba(255, 255, 255, 0.9);
+  border-color: rgba(15, 143, 61, 0.15);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
+}
+
+.premium-card {
+  background: linear-gradient(145deg, #141414 0%, #0a0a0a 100%);
+  border: 1px solid #222;
+  border-radius: 1.25rem;
+  box-shadow: var(--shadow-soft);
+}
+
+.accent-line {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--color-red), transparent);
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--color-red) 0%, #a81818 100%);
+  color: white;
+  box-shadow: var(--shadow-red);
+}
+
+.btn-secondary {
+  background: linear-gradient(135deg, var(--color-green) 0%, var(--color-green-dark) 100%);
+  color: white;
+}
+
+.safe-bottom {
+  padding-bottom: max(1rem, env(safe-area-inset-bottom));
+}
+
+::-webkit-scrollbar {
+  width: 4px;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-green);
+  border-radius: 2px;
+}
