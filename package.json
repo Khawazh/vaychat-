@@ -1,0 +1,10 @@
+﻿{
+  "name": "vaychat",
+  "version": "1.0.0",
+  "scripts": {
+    "backend:build": "cd backend && npm install && npx prisma generate && npx prisma db push",
+    "backend:start": "cd backend && npm start",
+    "frontend:build": "cd frontend && npm install && npm run build",
+    "frontend:start": "cd frontend && npm start"
+  }
+}
