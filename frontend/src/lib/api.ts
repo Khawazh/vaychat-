@@ -1,6 +1,11 @@
-﻿/** API URL - same IP as frontend on mobile */
+﻿/** API URL – с приоритетом переменной окружения */
 export function getApiUrl(): string {
   if (typeof window !== 'undefined') {
+    // Если задана переменная окружения (например, в Vercel), используем её
+    const envUrl = (window as any).__NEXT_DATA__?.props?.pageProps?.env?.NEXT_PUBLIC_API_URL
+      ?? process.env.NEXT_PUBLIC_API_URL;
+    if (envUrl) return envUrl;
+    // Иначе fallback на этот же хост с портом 4000
     return `${window.location.protocol}//${window.location.hostname}:4000`;
   }
   return process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:4000';
