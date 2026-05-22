@@ -57,6 +57,7 @@ model User {
   status        UserStatus @default(OFFLINE)
   lastSeenAt    DateTime?
   role          UserRole   @default(USER)
+  passwordHash  String?
   isBanned      Boolean    @default(false)
   bannedAt      DateTime?
   banReason     String?
