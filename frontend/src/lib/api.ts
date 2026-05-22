@@ -1,5 +1,8 @@
-﻿export function getApiUrl(): string {
-  return process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:4000';
+﻿/** Временный фиксированный адрес API */
+const API_URL = 'http://82.147.67.216:4000';
+
+export function getApiUrl(): string {
+  return API_URL;
 }
 
 export async function api<T>(
@@ -26,7 +29,6 @@ export async function api<T>(
   return data as T;
 }
 
-// Остальные экспорты (authApi, chatsApi и т.д.) остаются без изменений
 export const authApi = {
   getDevOtp: (phone: string) =>
     api<{ code: string | null }>(`/api/auth/otp/dev?phone=${encodeURIComponent(phone)}`),
