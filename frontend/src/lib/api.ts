@@ -1,8 +1,5 @@
-﻿/** Временный фиксированный адрес API */
-const API_URL = 'http://82.147.67.216:4000';
-
-export function getApiUrl(): string {
-  return API_URL;
+﻿export function getApiUrl(): string {
+  return ''; // относительный путь – запросы пойдут на /api/...
 }
 
 export async function api<T>(
@@ -21,7 +18,7 @@ export async function api<T>(
   try {
     res = await fetch(`${base}${path}`, { ...init, headers });
   } catch {
-    throw new Error(`Failed to connect to API (${base}). Start backend on this PC.`);
+    throw new Error(`Failed to connect to API (${base}${path}). Start backend on this PC.`);
   }
 
   const data = (await res.json().catch(() => ({}))) as { error?: string };
@@ -29,6 +26,7 @@ export async function api<T>(
   return data as T;
 }
 
+// Остальные экспорты без изменений (authApi, chatsApi и т.д.)
 export const authApi = {
   getDevOtp: (phone: string) =>
     api<{ code: string | null }>(`/api/auth/otp/dev?phone=${encodeURIComponent(phone)}`),
